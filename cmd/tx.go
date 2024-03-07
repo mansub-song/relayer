@@ -984,7 +984,11 @@ $ %s tx raw send ibc-0 ibc-1 100000stake cosmos1skjwj5whet0lpe65qaq4rpq03hjxlwd9
 				dstAddr = rawDstAddr
 			}
 
+			// st := time.Now()
 			return src.SendTransferMsg(cmd.Context(), a.Log, dst, amount, dstAddr, toHeightOffset, toTimeOffset, srcChannel)
+			// elap := time.Since(st)
+			// fmt.Println("SendTransferMsg", elap)
+			// return err
 		},
 	}
 

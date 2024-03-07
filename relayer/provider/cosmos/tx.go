@@ -142,8 +142,10 @@ func (cc *CosmosProvider) SendMessages(ctx context.Context, msgs []provider.Rela
 			return err
 		}
 
+		st := time.Now()
 		resp, err = cc.BroadcastTx(ctx, txBytes)
 		if err != nil {
+			fmt.Println("here BroadcastTx error")
 			if err == sdkerrors.ErrWrongSequence {
 				// Allow retrying if we got an invalid sequence error when attempting to broadcast this tx.
 				return err
@@ -153,7 +155,8 @@ func (cc *CosmosProvider) SendMessages(ctx context.Context, msgs []provider.Rela
 			// (This was the previous behavior. Unclear if that is still desired.)
 			return retry.Unrecoverable(err)
 		}
-
+		elap := time.Since(st)
+		fmt.Println("BroadcastTx:", elap) //here 여기에 대부분 차지@
 		return nil
 	}, retry.Context(ctx), rtyAtt, rtyDel, rtyErr, retry.OnRetry(func(n uint, err error) {
 		cc.log.Info(

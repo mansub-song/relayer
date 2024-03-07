@@ -144,7 +144,7 @@ func (r *RelayMsgs) send(
 
 	var txSize, batchStartIdx uint64
 
-	fmt.Println("len msgs:", len(msgs), "batchStartIdx:", batchStartIdx)
+	// fmt.Println("len msgs:", len(msgs), "batchStartIdx:", batchStartIdx)
 
 	for i, msg := range msgs {
 		// The previous version of this was skipping nil messages;
