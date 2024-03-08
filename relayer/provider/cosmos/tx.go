@@ -145,7 +145,6 @@ func (cc *CosmosProvider) SendMessages(ctx context.Context, msgs []provider.Rela
 		st := time.Now()
 		resp, err = cc.BroadcastTx(ctx, txBytes)
 		if err != nil {
-			fmt.Println("here BroadcastTx error")
 			if err == sdkerrors.ErrWrongSequence {
 				// Allow retrying if we got an invalid sequence error when attempting to broadcast this tx.
 				return err
@@ -1767,7 +1766,7 @@ func (cc *CosmosProvider) acknowledgementsFromResultTx(dstChanId, dstPortId, src
 
 EventLoop:
 	for _, event := range resp.Events {
-		st_0 := time.Now()
+		// st_0 := time.Now()
 		rp := &relayMsgPacketAck{}
 
 		if event.EventType != waTag {
@@ -1775,40 +1774,27 @@ EventLoop:
 		}
 
 		for attributeKey, attributeValue := range event.Attributes {
-			st := time.Now()
 			switch attributeKey {
 			case srcChanTag:
 				if attributeValue != srcChanId {
 					continue EventLoop
 				}
-				elap := time.Since(st)
-				fmt.Println("@srcChanTag", elap)
 			case dstChanTag:
 				if attributeValue != dstChanId {
 					continue EventLoop
 				}
-				elap := time.Since(st)
-				fmt.Println("@dstChanTag", elap)
 			case srcPortTag:
 				if attributeValue != srcPortId {
 					continue EventLoop
 				}
-				elap := time.Since(st)
-				fmt.Println("@srcPortTag", elap)
 			case dstPortTag:
 				if attributeValue != dstPortId {
 					continue EventLoop
 				}
-				elap := time.Since(st)
-				fmt.Println("@dstPortTag", elap)
 			case ackTag:
 				rp.ack = []byte(attributeValue)
-				elap := time.Since(st)
-				fmt.Println("@ackTag", elap)
 			case dataTag:
 				rp.packetData = []byte(attributeValue)
-				elap := time.Since(st)
-				fmt.Println("@dataTag", elap)
 			case toHeightTag:
 				timeout, err := clienttypes.ParseHeight(attributeValue)
 				if err != nil {
@@ -1820,8 +1806,6 @@ EventLoop:
 					continue EventLoop
 				}
 				rp.timeout = timeout
-				elap := time.Since(st)
-				fmt.Println("@toHeightTag", elap)
 			case toTSTag:
 				timeout, err := strconv.ParseUint(attributeValue, 10, 64)
 				if err != nil {
@@ -1833,8 +1817,6 @@ EventLoop:
 					continue EventLoop
 				}
 				rp.timeoutStamp = timeout
-				elap := time.Since(st)
-				fmt.Println("@toTSTag", elap)
 			case seqTag:
 				seq, err := strconv.ParseUint(attributeValue, 10, 64)
 				if err != nil {
@@ -1845,8 +1827,6 @@ EventLoop:
 					continue EventLoop
 				}
 				rp.seq = seq
-				elap := time.Since(st)
-				fmt.Println("@seqTag", elap)
 			}
 		}
 
@@ -1857,8 +1837,6 @@ EventLoop:
 		}
 
 		ackPackets = append(ackPackets, rp)
-		elap_0 := time.Since(st_0)
-		fmt.Println("elap:", elap_0)
 	}
 
 	// If there is a relayPacket, return it

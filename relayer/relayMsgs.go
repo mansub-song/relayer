@@ -117,12 +117,12 @@ func (r *RelayMsgs) Send(ctx context.Context, log *zap.Logger, src, dst RelayMsg
 	)
 	if len(r.Src) > 0 {
 		wg.Add(1)
-		fmt.Println("r.Src")
+		fmt.Println("send to Src")
 		go r.send(ctx, log, &wg, src, r.Src, memo, &result.SuccessfulSrcBatches, &result.SrcSendError)
 	}
 	if len(r.Dst) > 0 {
 		wg.Add(1)
-		fmt.Println("r.Dst")
+		fmt.Println("send to Dst")
 		go r.send(ctx, log, &wg, dst, r.Dst, memo, &result.SuccessfulDstBatches, &result.DstSendError)
 	}
 

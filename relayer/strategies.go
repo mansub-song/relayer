@@ -336,7 +336,7 @@ func relayUnrelayedPackets(ctx context.Context, log *zap.Logger, src, dst *Chain
 	// Fetch any unrelayed sequences depending on the channel order
 	sp := UnrelayedSequences(ctx, src, dst, srcChannel)
 	elap_0 := time.Since(st)
-	fmt.Println("sp:", sp)
+	fmt.Println("seq_pkt:", sp)
 	// If there are no unrelayed packets, stop early.
 	if sp.Empty() {
 		src.log.Debug(
@@ -412,7 +412,7 @@ func relayUnrelayedPackets(ctx context.Context, log *zap.Logger, src, dst *Chain
 	}
 	elap_1 := time.Since(st_1)
 	elap := time.Since(st)
-	fmt.Println("relayUnrelayedPackets", elap)
+	elap = elap
 	fmt.Println("UnrelayedSequences", elap_0, "RelayPackets", elap_1)
 	return true
 }
@@ -425,7 +425,7 @@ func relayUnrelayedAcks(ctx context.Context, log *zap.Logger, src, dst *Chain, m
 	st := time.Now()
 	ap := UnrelayedAcknowledgements(ctx, src, dst, srcChannel)
 	elap_0 := time.Since(st)
-	fmt.Println("ap:", ap)
+	fmt.Println("ack_pkt:", ap)
 	// If there are no unrelayed acks, stop early.
 	if ap.Empty() {
 		log.Debug(
@@ -486,7 +486,7 @@ func relayUnrelayedAcks(ctx context.Context, log *zap.Logger, src, dst *Chain, m
 	}
 	elap_1 := time.Since(st_1)
 	elap := time.Since(st)
-	fmt.Println("relayUnrelayedAcks", elap)
-	fmt.Println("UnrelayedAcknowledgements", elap_0, "RelayAcknowledgements", elap_1)
+	elap = elap
+	fmt.Println("	@UnrelayedAcknowledgements:", elap_0, "RelayAcknowledgements", elap_1)
 	return true
 }

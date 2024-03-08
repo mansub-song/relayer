@@ -392,7 +392,6 @@ func RelayAcknowledgements(ctx context.Context, log *zap.Logger, src, dst *Chain
 		MaxMsgLength: maxMsgLength,
 	}
 
-	st := time.Now()
 	select {
 	case <-ctx.Done():
 		return ctx.Err()
@@ -512,10 +511,8 @@ func RelayAcknowledgements(ctx context.Context, log *zap.Logger, src, dst *Chain
 			dst.logPacketsRelayed(src, result.SuccessfulDstBatches, srcChannel)
 		}
 		elap_4 := time.Since(st_4)
-		fmt.Println("elaps:", elap_0, elap_1, elap_2, elap_3, elap_4) //elap_3이 대부분 걸려!!
+		fmt.Println("@RelayAcknowledgements elaps:", elap_0, elap_1, elap_2, elap_3, elap_4) //elap_3이 대부분 걸려!!
 	}
-	elap := time.Since(st)
-	fmt.Println("Total RelayAcknowledgements elap:", elap)
 
 	return nil
 }
